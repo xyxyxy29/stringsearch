@@ -26,11 +26,13 @@ print(Fore.WHITE + Style.BRIGHT + ascii_art + Style.RESET_ALL)
 init()
 
 # Check for the correct number of command line arguments
-if len(sys.argv) != 2:
-    print("Usage:", sys.argv[0], "<search_string>")
+if len(sys.argv) != 3:
+    script_path = os.path.basename(sys.argv[0])
+    print("Usage: python",script_path, "<search_path> <search_string>")
     sys.exit(1)
 
-search_string = sys.argv[1]
+search_string = sys.argv[2]
+path = sys.argv[1]
 
 # Function to highlight matches in a line
 def highlight_matches(line, line_number):
@@ -53,7 +55,7 @@ def search_in_file(file_path, filename):
         pass  # Ignore errors for unreadable files or invalid encoding
 
 # Recursively search for files in the current directory and its subdirectories
-for root, _, files in os.walk('./'):
+for root, _, files in os.walk(path):
     for filename in fnmatch.filter(files, '*'):
         file_path = os.path.join(root, filename)
         search_in_file(file_path, filename)
