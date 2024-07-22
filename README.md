@@ -16,4 +16,4 @@ StringSearch is a Python script that searches for a specified string in files wi
 ## Usage
 
 ```bash
-python <path_to_file>/stringsearch.py <search_string>
+python <path_to_file>/stringsearch.py <search_string/regex>
