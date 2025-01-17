@@ -21,14 +21,13 @@ v1.0
 # Print ASCII art
 print(Fore.WHITE + Style.BRIGHT + ascii_art + Style.RESET_ALL)
 
-
 # Initialize colorama
 init()
 
 # Check for the correct number of command line arguments
 if len(sys.argv) != 3:
     script_path = os.path.basename(sys.argv[0])
-    print("Usage: python",script_path, "<search_path> <search_string>")
+    print("Usage: python", script_path, "<search_path> <search_string>")
     sys.exit(1)
 
 search_string = sys.argv[2]
@@ -40,7 +39,7 @@ def highlight_matches(line, line_number):
     return f"Line {line_number}: {highlighted_line}"
 
 # Function to search for the given string in a file
-def search_in_file(file_path, filename):
+def search_in_file(file_path):
     try:
         with open(file_path, 'r', errors='ignore') as file:
             matches_found = False
@@ -49,13 +48,14 @@ def search_in_file(file_path, filename):
                     if not matches_found:
                         print(Fore.RED + Style.BRIGHT + "\n[ MATCH FOUND ]" + Style.RESET_ALL)
                         matches_found = True
-                        print(Fore.RED + Style.BRIGHT + f".\\{filename}" + Style.RESET_ALL)
+                        # Print the full file path
+                        print(Fore.RED + Style.BRIGHT + f"File: {file_path}" + Style.RESET_ALL)
                     print(highlight_matches(line, line_number), end="")
     except (IOError, UnicodeDecodeError):
         pass  # Ignore errors for unreadable files or invalid encoding
 
-# Recursively search for files in the current directory and its subdirectories
+# Recursively search for files in the given directory and its subdirectories
 for root, _, files in os.walk(path):
     for filename in fnmatch.filter(files, '*'):
         file_path = os.path.join(root, filename)
-        search_in_file(file_path, filename)
+        search_in_file(file_path)
